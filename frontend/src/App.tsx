@@ -89,6 +89,14 @@ export const App: React.FC = () => {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/institution/help"
+                    element={
+                      <ProtectedRoute allowedRoles={['institution']}>
+                        <HelpPage />
+                      </ProtectedRoute>
+                    }
+                  />
 
                   {/* Officer Portal Protected Routes */}
                   <Route

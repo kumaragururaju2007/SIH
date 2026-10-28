@@ -27,7 +27,7 @@ export const Sidebar: React.FC = () => {
   const institutionLinks = [
     { to: '/institution', label: 'Dashboard', icon: <LayoutDashboard className="w-4 h-4" /> },
     { to: '/institution/applications', label: 'My Applications', icon: <FileCheck2 className="w-4 h-4" /> },
-    { to: '/help', label: 'Help & Handbook', icon: <HelpCircle className="w-4 h-4" /> },
+    { to: '/institution/help', label: 'Help', icon: <HelpCircle className="w-4 h-4" /> },
   ];
 
   const officerLinks = [

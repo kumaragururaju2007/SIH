@@ -114,7 +114,7 @@ export const InstitutionApplicationsList: React.FC = () => {
     },
     {
       key: 'risk_factors',
-      header: 'Issues Flagged',
+      header: 'Issue Count',
       className: 'w-[130px]',
       render: (item) => {
         const issues = item.reasons?.length || (item.label === 'inconsistent' ? 1 : 0);
@@ -133,7 +133,10 @@ export const InstitutionApplicationsList: React.FC = () => {
       header: 'Last Updated',
       className: 'w-[140px]',
       render: (item) => (
-        <span className="text-xs text-ink-secondary tabular-nums">
+        <span
+          className="text-xs text-ink-secondary tabular-nums cursor-help"
+          title={new Date(item.created_at).toISOString()}
+        >
           {new Date(item.created_at).toLocaleDateString('en-GB', {
             day: '2-digit',
             month: 'short',

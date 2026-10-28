@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/AuthContext';
 import {
   OfficerApplicationDetailResponse,
   DocumentItem,
@@ -41,7 +41,7 @@ import { Breadcrumbs } from '../common/Breadcrumbs';
 export const OfficerApplicationDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const appId = Number(id);
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 

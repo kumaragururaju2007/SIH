@@ -17,84 +17,97 @@ export const RiskMeter: React.FC<RiskMeterProps> = ({
   className = '',
 }) => {
   const numericScore = score !== null && score !== undefined ? Math.round(score) : 0;
-  
-  // Determine band if not provided
-  let computedBand: RiskBand = 'low';
+
+  // Determine band if not explicitly provided
+  let computedBand: 'low' | 'medium' | 'high' = 'low';
   if (band) {
-    computedBand = band.toLowerCase() as RiskBand;
-  } else if (numericScore > 60) {
+    const b = band.toLowerCase();
+    if (b.includes('high')) computedBand = 'high';
+    else if (b.includes('med')) computedBand = 'medium';
+    else computedBand = 'low';
+  } else if (numericScore >= 60) {
     computedBand = 'high';
-  } else if (numericScore > 30) {
+  } else if (numericScore >= 30) {
     computedBand = 'medium';
   }
 
-  const bandConfigs: Record<RiskBand, { label: string; textCol: string; barCol: string; bgCol: string }> = {
+  const bandConfigs = {
     low: {
-      label: 'Low Risk',
-      textCol: 'text-risk-low-text',
-      barCol: 'bg-risk-low',
-      bgCol: 'bg-risk-low-bg',
+      label: 'Low',
+      textCol: 'text-status-verified-text',
+      activeBg: 'bg-status-verified',
+      lightBg: 'bg-status-verified-bg',
     },
     medium: {
-      label: 'Medium Risk',
-      textCol: 'text-risk-medium-text',
-      barCol: 'bg-risk-medium',
-      bgCol: 'bg-risk-medium-bg',
+      label: 'Medium',
+      textCol: 'text-status-needsVerification-text',
+      activeBg: 'bg-status-needsVerification',
+      lightBg: 'bg-status-needsVerification-bg',
     },
     high: {
-      label: 'High Risk',
-      textCol: 'text-risk-high-text',
-      barCol: 'bg-risk-high',
-      bgCol: 'bg-risk-high-bg',
+      label: 'High',
+      textCol: 'text-status-inconsistent-text',
+      activeBg: 'bg-status-inconsistent',
+      lightBg: 'bg-status-inconsistent-bg',
     },
   };
 
-  const current = bandConfigs[computedBand] || bandConfigs.low;
+  const activeConfig = bandConfigs[computedBand];
 
-  if (size === 'sm') {
-    return (
-      <div className={`inline-flex items-center gap-2 ${className}`}>
-        <div className="w-16 h-2 bg-stone-200 rounded-full overflow-hidden flex-shrink-0" aria-hidden="true">
-          <div
-            className={`h-full rounded-full transition-all duration-300 ${current.barCol}`}
-            style={{ width: `${Math.min(100, Math.max(4, numericScore))}%` }}
-          />
-        </div>
-        <span className={`text-xs font-mono font-semibold tabular-nums ${current.textCol}`}>
-          {numericScore}
+  return (
+    <div
+      role="meter"
+      aria-valuenow={numericScore}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={`Risk score: ${numericScore} out of 100, ${activeConfig.label} risk band`}
+      className={`inline-flex flex-col gap-1 ${className}`}
+    >
+      <div className="flex items-center justify-between text-xs font-semibold gap-3">
+        <span className="font-mono-val tabular-nums text-ink text-xs font-bold">
+          {numericScore}<span className="text-[10px] text-ink-muted">/100</span>
         </span>
         {showLabel && (
-          <span className={`text-xs font-medium uppercase tracking-wider ${current.textCol}`}>
-            {current.label.split(' ')[0]}
+          <span className={`text-[11px] font-bold uppercase tracking-wider ${activeConfig.textCol}`}>
+            {activeConfig.label} Risk
           </span>
         )}
       </div>
-    );
-  }
 
-  return (
-    <div className={`flex flex-col gap-1.5 ${className}`}>
-      {showLabel && (
-        <div className="flex items-center justify-between text-xs font-medium">
-          <span className={`uppercase tracking-wider font-semibold ${current.textCol}`}>
-            {current.label}
-          </span>
-          <span className="font-mono text-stone-600 font-semibold tabular-nums">
-            {numericScore} / 100
-          </span>
-        </div>
-      )}
-      <div
-        className="w-full h-2.5 bg-stone-200 rounded-full overflow-hidden"
-        role="progressbar"
-        aria-valuenow={numericScore}
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-label={`Risk score: ${numericScore} out of 100, ${current.label}`}
-      >
+      {/* Segmented Horizontal Meter: Low, Medium, High */}
+      <div className="flex items-center gap-1 w-full min-w-[100px] h-2">
+        {/* Segment 1: Low (0 - 30) */}
         <div
-          className={`h-full rounded-full transition-all duration-300 ${current.barCol}`}
-          style={{ width: `${Math.min(100, Math.max(3, numericScore))}%` }}
+          className={`flex-1 h-full rounded-full transition-colors ${
+            computedBand === 'low' || computedBand === 'medium' || computedBand === 'high'
+              ? computedBand === 'low'
+                ? 'bg-status-verified ring-1 ring-status-verified'
+                : 'bg-status-verified/40'
+              : 'bg-stoneBorder'
+          }`}
+          title="Low Risk Segment (0-30)"
+        />
+
+        {/* Segment 2: Medium (31 - 60) */}
+        <div
+          className={`flex-1 h-full rounded-full transition-colors ${
+            computedBand === 'medium' || computedBand === 'high'
+              ? computedBand === 'medium'
+                ? 'bg-status-needsVerification ring-1 ring-status-needsVerification'
+                : 'bg-status-needsVerification/40'
+              : 'bg-stoneBorder'
+          }`}
+          title="Medium Risk Segment (31-60)"
+        />
+
+        {/* Segment 3: High (61 - 100) */}
+        <div
+          className={`flex-1 h-full rounded-full transition-colors ${
+            computedBand === 'high'
+              ? 'bg-status-inconsistent ring-1 ring-status-inconsistent'
+              : 'bg-stoneBorder'
+          }`}
+          title="High Risk Segment (61-100)"
         />
       </div>
     </div>

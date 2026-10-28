@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './auth/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { I18nProvider } from './i18n';
-import { Navbar } from './components/common/Navbar';
-import { Sidebar } from './components/common/Sidebar';
-import { Banner } from './components/common/Banner';
-import { HelpDrawer } from './components/common/HelpDrawer';
-import { LandingPage } from './pages/LandingPage';
+import { ProtectedRoute } from './auth/ProtectedRoute';
+import { AppLayout } from './components/common/AppLayout';
+import { LoginPage } from './pages/LoginPage';
 import { DesignSystemPage } from './pages/DesignSystemPage';
 import { HelpPage } from './pages/HelpPage';
+import { AdminPage } from './pages/AdminPage';
+import { AuditorPage } from './pages/AuditorPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { InstitutionDashboard } from './components/institution/InstitutionDashboard';
 import { InstitutionApplicationsList } from './components/institution/InstitutionApplicationsList';
 import { ApplicationWorkspace } from './components/institution/ApplicationWorkspace';
 import { OfficerQueue } from './components/officer/OfficerQueue';
@@ -26,66 +28,129 @@ const queryClient = new QueryClient({
   },
 });
 
-export const App: React.FC = () => {
-  const [isHelpOpen, setIsHelpOpen] = useState(false);
+const RootRedirect: React.FC = () => {
+  const { user, isAuthenticated } = useAuth();
+  if (!isAuthenticated || !user) {
+    return <Navigate to="/login" replace />;
+  }
+  const dest =
+    user.role === 'institution'
+      ? '/institution'
+      : user.role === 'officer'
+      ? '/officer'
+      : user.role === 'admin'
+      ? '/admin'
+      : '/audit';
+  return <Navigate to={dest} replace />;
+};
 
+export const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <AuthProvider>
-          <ToastProvider>
-            <BrowserRouter>
-              <div className="min-h-screen flex flex-col bg-warmBg text-stone-900 font-sans antialiased">
-                {/* Skip to Content accessible link */}
-                <a
-                  href="#main-content"
-                  className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded focus:font-semibold"
-                >
-                  Skip to main content
-                </a>
+        <BrowserRouter>
+          <AuthProvider>
+            <ToastProvider>
+              <Routes>
+                {/* Public Authentication Route */}
+                <Route path="/login" element={<LoginPage />} />
 
-                {/* Top Navigation */}
-                <Navbar onOpenHelp={() => setIsHelpOpen(true)} />
+                {/* Root Route Redirect */}
+                <Route path="/" element={<RootRedirect />} />
 
-                {/* Persistent Slim Banner */}
-                <Banner />
+                {/* Authenticated App Shell Layout */}
+                <Route element={<AppLayout />}>
+                  {/* Public Help & Design Pages reachable within app */}
+                  <Route path="/help" element={<HelpPage />} />
+                  <Route path="/design" element={<DesignSystemPage />} />
 
-                {/* App Content Body with Collapsible Sidebar */}
-                <div className="flex-1 flex overflow-hidden">
-                  <Sidebar />
+                  {/* Institution Portal Protected Routes */}
+                  <Route
+                    path="/institution"
+                    element={
+                      <ProtectedRoute allowedRoles={['institution']}>
+                        <InstitutionDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/institution/applications"
+                    element={
+                      <ProtectedRoute allowedRoles={['institution']}>
+                        <InstitutionApplicationsList />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/institution/applications/:id"
+                    element={
+                      <ProtectedRoute allowedRoles={['institution']}>
+                        <ApplicationWorkspace />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                  <main id="main-content" className="flex-1 overflow-y-auto">
-                    <Routes>
-                      {/* Landing / Role Chooser */}
-                      <Route path="/" element={<LandingPage />} />
+                  {/* Officer Portal Protected Routes */}
+                  <Route
+                    path="/officer"
+                    element={
+                      <ProtectedRoute allowedRoles={['officer', 'admin']}>
+                        <OfficerQueue />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/officer/queue"
+                    element={
+                      <ProtectedRoute allowedRoles={['officer', 'admin']}>
+                        <OfficerQueue />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/officer/applications/:id"
+                    element={
+                      <ProtectedRoute allowedRoles={['officer', 'admin']}>
+                        <OfficerApplicationDetail />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/officer/resubmission-compare/:id"
+                    element={
+                      <ProtectedRoute allowedRoles={['officer', 'admin']}>
+                        <OfficerResubmissionCompare />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                      {/* Design System Showcase */}
-                      <Route path="/design" element={<DesignSystemPage />} />
+                  {/* Administrator Portal */}
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute allowedRoles={['admin']}>
+                        <AdminPage />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                      {/* Help & Guidelines Page */}
-                      <Route path="/help" element={<HelpPage />} />
+                  {/* Auditor Portal */}
+                  <Route
+                    path="/audit"
+                    element={
+                      <ProtectedRoute allowedRoles={['audit', 'admin', 'officer']}>
+                        <AuditorPage />
+                      </ProtectedRoute>
+                    }
+                  />
 
-                      {/* Institution Portal Routes */}
-                      <Route path="/institution/applications" element={<InstitutionApplicationsList />} />
-                      <Route path="/institution/applications/:id" element={<ApplicationWorkspace />} />
-
-                      {/* Officer Workstation Routes */}
-                      <Route path="/officer/queue" element={<OfficerQueue />} />
-                      <Route path="/officer/applications/:id" element={<OfficerApplicationDetail />} />
-                      <Route path="/officer/applications/:id/compare" element={<OfficerResubmissionCompare />} />
-
-                      {/* Fallback */}
-                      <Route path="*" element={<Navigate to="/" replace />} />
-                    </Routes>
-                  </main>
-                </div>
-
-                {/* Persistent Help Drawer */}
-                <HelpDrawer isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
-              </div>
-            </BrowserRouter>
-          </ToastProvider>
-        </AuthProvider>
+                  {/* 404 Catch-All */}
+                  <Route path="*" element={<NotFoundPage />} />
+                </Route>
+              </Routes>
+            </ToastProvider>
+          </AuthProvider>
+        </BrowserRouter>
       </I18nProvider>
     </QueryClientProvider>
   );

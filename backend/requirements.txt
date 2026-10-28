@@ -20,4 +20,5 @@ rapidfuzz>=3.6.0,<4.0.0
 python-multipart>=0.0.9,<1.0.0
 simpleeval>=1.0.0,<2.0.0
 imagehash>=4.3.1,<5.0.0
+psycopg2-binary>=2.9.9
 # pikepdf>=8.0.0  # Optional fallback for PDF metadata extraction

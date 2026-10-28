@@ -18,70 +18,56 @@
   /* Surface and Background */
   --bg-app: #F7F6F2;
   --surface: #FFFFFF;
-  --border-stone: #E5E3DC;
-  --border-stone-strong: #D1CEC5;
+  --surface-subtle: #FBFAF7;
+  --border-stone: #E4E1D8;
+  --border-stone-strong: #CFCABD;
+
+  /* Ink (text) */
+  --ink: #1B2430;
+  --ink-secondary: #4B5563;
+  --ink-muted: #6B7280;
 
   /* Primary Deep Ink Blue */
   --primary: #1E3A5F;
-  --primary-hover: #152A45;
-  --primary-light: #F0F4F8;
-  --primary-text: #FFFFFF;
+  --primary-hover: #172E4C;
+  --primary-tint: #E8EEF5;
 
-  /* Accent Muted Saffron */
+  /* Accent Saffron */
   --accent: #C77700;
   --accent-hover: #A66300;
-  --accent-light: #FFF8EB;
-  --accent-text: #FFFFFF;
+  --accent-tint: #FBF1DD;
 
   /* Status Tokens: WCAG AA Compliant Tint BG + Dark Text */
   /* Verified: green #1B7F4B */
   --status-verified: #1B7F4B;
   --status-verified-bg: #EAF6EE;
-  --status-verified-border: #B7E4C7;
   --status-verified-text: #135A35;
 
   /* Needs verification: amber #9A6700 */
   --status-needs-verification: #9A6700;
   --status-needs-verification-bg: #FEF8E7;
-  --status-needs-verification-border: #FCD98B;
   --status-needs-verification-text: #734C00;
 
   /* Inconsistent: red-orange #B42318 */
   --status-inconsistent: #B42318;
   --status-inconsistent-bg: #FEF3F2;
-  --status-inconsistent-border: #FECDCA;
   --status-inconsistent-text: #912018;
 
   /* Possible tampering: deep magenta-red #8B1E3F */
   --status-tampering: #8B1E3F;
   --status-tampering-bg: #FDF2F4;
-  --status-tampering-border: #F8CAD6;
   --status-tampering-text: #6B162F;
 
   /* Info / Neutral */
-  --status-neutral: #475569;
-  --status-neutral-bg: #F1F5F9;
-  --status-neutral-border: #CBD5E1;
-  --status-neutral-text: #334155;
-
-  /* Risk Band Colors */
-  --risk-low: #1B7F4B;
-  --risk-low-bg: #EAF6EE;
-  --risk-low-text: #135A35;
-
-  --risk-medium: #D97706;
-  --risk-medium-bg: #FFFBEB;
-  --risk-medium-text: #92400E;
-
-  --risk-high: #B42318;
-  --risk-high-bg: #FEF3F2;
-  --risk-high-text: #912018;
+  --status-info: #334155;
+  --status-info-bg: #F1F5F9;
+  --status-info-text: #1E293B;
 }
 
 @layer base {
   body {
     background-color: var(--bg-app);
-    color: #1E293B;
+    color: var(--ink);
     font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     font-size: 14px;
     line-height: 1.5;
@@ -95,80 +81,56 @@
     outline-offset: 2px;
   }
 
-  /* Tabular numbers for numbers and tables */
+  /* Tabular numbers for IDs, certificate numbers, counts, and tables */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
   }
 
-  /* Hindi script font shaping */
-  .lang-hi, [lang="hi"] {
+  /* Mono font for IDs, certs, hashes, and normalized values */
+  .font-mono-val {
+    font-family: "IBM Plex Mono", monospace;
+    font-feature-settings: "tnum";
+  }
+
+  /* Hindi Font stack */
+  .lang-hi, :lang(hi) {
     font-family: "Noto Sans Devanagari", "IBM Plex Sans", sans-serif;
   }
 }
 
-/* Functional transitions only */
+/* Print Stylesheet for Deficiency Report and Officer Summary */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .no-print, header, nav, aside, .sidebar-container, .topbar-container, .banner-container, button {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-page-break {
+    page-break-after: always;
+  }
+
+  .print-card {
+    border: 1px solid #CFCABD !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* Scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #F1F0EB;
-}
-::-webkit-scrollbar-thumb {
-  background: #D1CEC5;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #B6B2A8;
-}
-
-/* Print Stylesheet for Deficiency Report and Officer Summary */
-@media print {
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 12pt;
-  }
-
-  header, nav, aside, .no-print, button, .banner-proto {
-    display: none !important;
-  }
-
-  main, .print-container {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none !important;
-  }
-
-  .page-break {
-    page-break-before: always;
-  }
-
-  .print-header {
-    display: block !important;
-    border-bottom: 2px solid #1E3A5F;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-  }
-
-  table {
-    border-collapse: collapse !important;
-    width: 100% !important;
-  }
-
-  th, td {
-    border: 1px solid #D1CEC5 !important;
-    padding: 6px 8px !important;
   }
 }

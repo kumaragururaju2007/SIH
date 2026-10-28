@@ -1,5 +1,4 @@
 import React from 'react';
-import { ShieldAlert } from 'lucide-react';
 import { useI18n } from '../../i18n';
 
 export const Banner: React.FC = () => {
@@ -7,20 +6,12 @@ export const Banner: React.FC = () => {
 
   return (
     <div
-      role="note"
-      aria-label="Prototype synthetic data disclaimer banner"
-      className="banner-proto bg-stone-100 border-b border-stoneBorder px-4 py-1.5 text-xs text-stone-700 flex items-center justify-center gap-2 select-none"
+      role="region"
+      aria-label="Prototype Notice"
+      className="banner-container bg-primary text-white text-xs py-1.5 px-4 text-center font-medium border-b border-primary-hover flex items-center justify-center gap-2 select-none"
     >
-      <ShieldAlert className="w-3.5 h-3.5 text-accent flex-shrink-0" />
-      <span className="font-semibold text-primary uppercase text-[11px] tracking-wider">
-        Prototype Notice:
-      </span>
-      <span className="truncate">
-        {t(
-          'app.banner',
-          'Prototype using synthetic data. Scores and thresholds are illustrative; officers make all decisions.'
-        )}
-      </span>
+      <span className="w-2 h-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
+      <span>{t('app.banner', 'Prototype using synthetic data. Scores and thresholds are illustrative; officers make all decisions.')}</span>
     </div>
   );
 };

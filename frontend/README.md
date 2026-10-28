@@ -1,32 +1,42 @@
-# React + TypeScript + Vite
+# DocValidate Frontend (Smart India Hackathon Prototype)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Institutional document validation, compliance checking, explainable risk-ranking, and deficiency remediation for AICTE statutory approvals.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Quick Start & Deployment Guide
 
-## React Compiler
+### Environment Configuration
+The frontend communicates with the AICTE Scrutiny Backend API exclusively via `VITE_API_URL`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+Create a `.env` file in the `frontend/` directory (or set the environment variable in your deployment dashboard):
+```env
+VITE_API_URL=http://localhost:8000
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+### Build & Run Commands
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start local development server
+npm run dev
+
+# 3. Production build (TypeScript validation + Vite bundle)
+npm run build
+
+# 4. Preview production build locally
+npm run preview
+```
+
+### Static Site Hosting (Render / Netlify / Vercel)
+- **Build Command:** `npm install && npm run build`
+- **Publish Directory:** `dist`
+- **Single Page Application Rewrite:** Handled automatically via `public/_redirects` (`/* /index.html 200`).
+
+---
+
+## 🏛 Design System & Specimen Notice
+- **Design Tokens:** Strict government digital service standard: light theme, generous whitespace, high-contrast typography (IBM Plex Sans, IBM Plex Mono, Noto Sans Devanagari), ink-blue `#1E3A5F` and reserved saffron `#C77700` primary CTA.
+- **Prototype Authorization Notice:** Real authentication (DigiLocker, e-Pramaan) is planned for future scope. The prototype uses client-side demo account credentials (`demo123`) with role enforcement (`institution`, `officer`, `admin`, `audit`), session timeouts, and route guards.
+- **Explainability:** Risk scores are illustrative; forensic signals represent algorithmic probabilities; final verdicts are strictly reserved for human scrutiny officers.

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, RefreshCw, AlertCircle, ArrowRight, FileText, Calendar, Building, Clock } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useI18n } from '../../i18n';
 import { api } from '../../services/api';
@@ -12,7 +12,7 @@ import { ConfirmDialog } from '../common/ConfirmDialog';
 import { Breadcrumbs } from '../common/Breadcrumbs';
 
 export const InstitutionApplicationsList: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const { showToast } = useToast();
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export const InstitutionApplicationsList: React.FC = () => {
     setLoadError(null);
     try {
       const [data, configData] = await Promise.all([
-        api.getApplications(currentUser.institutionId),
+        api.getApplications(user?.institutionId),
         api.getConfig().catch(() => null),
       ]);
       setApplications(data);
@@ -60,45 +60,38 @@ export const InstitutionApplicationsList: React.FC = () => {
 
   useEffect(() => {
     loadApplications();
-  }, [currentUser.institutionId]);
+  }, [user?.institutionId]);
 
-  const handleCreate = async () => {
-    if (!currentUser.institutionId) {
-      showToast('error', 'No institution selected');
-      return;
-    }
+  const handleCreateApplication = async () => {
     setIsCreating(true);
     try {
-      const newApp = await api.createApplication(currentUser.institutionId, appType);
-      showToast('success', 'Application created', `Application #${newApp.id} initialized successfully.`);
+      const institutionId = user?.institutionId || 1;
+      const newApp = await api.createApplication(institutionId, appType);
+      showToast('success', 'Application Draft Created', `Application #${newApp.id} is ready for document upload.`);
       setShowCreateModal(false);
       navigate(`/institution/applications/${newApp.id}`);
     } catch (err: any) {
-      showToast('error', 'Application creation failed', err.message);
+      showToast('error', 'Failed to create application', err.message);
     } finally {
       setIsCreating(false);
     }
-  };
-
-  const getIssueCount = (app: ApplicationItem): number => {
-    if (!app.reasons) return 0;
-    if (Array.isArray(app.reasons)) return app.reasons.length;
-    if (typeof app.reasons === 'object') return Object.keys(app.reasons).length;
-    return 0;
   };
 
   const columns: Column<ApplicationItem>[] = [
     {
       key: 'id',
       header: 'Application ID',
-      sortable: true,
-      className: 'w-36 font-mono font-bold text-primary',
-      render: (app) => (
+      className: 'w-[160px]',
+      render: (item) => (
         <div className="flex flex-col gap-1 items-start">
-          <span className="font-bold text-sm">#{app.id}</span>
-          {app.parent_application_id && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-50 text-accent border border-amber-200">
-              Resubmission of #{app.parent_application_id}
+          <div className="flex items-center gap-1.5">
+            <span className="font-mono-val font-bold text-primary text-xs bg-warmBg px-2 py-0.5 rounded border border-stoneBorder">
+              #{item.id}
+            </span>
+          </div>
+          {item.parent_application_id && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold text-accent bg-accent-tint border border-accent/30 px-1.5 py-0.2 rounded-full">
+              Resubmission of #{item.parent_application_id}
             </span>
           )}
         </div>
@@ -106,73 +99,60 @@ export const InstitutionApplicationsList: React.FC = () => {
     },
     {
       key: 'application_type',
-      header: 'Type',
-      sortable: true,
-      render: (app) => (
-        <span className="capitalize font-medium text-stone-800 text-xs">
-          {app.application_type.replace(/_/g, ' ')}
-        </span>
+      header: 'Category / Purpose',
+      render: (item) => (
+        <div className="capitalize font-semibold text-ink text-xs leading-snug">
+          {item.application_type.replace(/_/g, ' ')}
+        </div>
       ),
     },
     {
       key: 'status',
       header: 'Status',
-      sortable: true,
-      render: (app) => <StatusChip label={app.status} size="sm" />,
+      className: 'w-[160px]',
+      render: (item) => <StatusChip label={item.status} size="sm" />,
     },
     {
-      key: 'issue_count',
-      header: 'Issue Count',
-      sortable: true,
-      className: 'text-center w-28',
-      render: (app) => {
-        const count = getIssueCount(app);
-        if (count > 0) {
-          return (
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-0.5 rounded bg-status-inconsistent-bg text-status-inconsistent-text border border-status-inconsistent-border">
-              {count} {count === 1 ? 'issue' : 'issues'}
-            </span>
-          );
-        }
+      key: 'risk_factors',
+      header: 'Issues Flagged',
+      className: 'w-[130px]',
+      render: (item) => {
+        const issues = item.reasons?.length || (item.label === 'inconsistent' ? 1 : 0);
         return (
-          <span className="text-xs font-mono text-stone-500">
-            0 issues
+          <span
+            className={`font-mono-val tabular-nums text-xs font-semibold px-2 py-0.5 rounded ${
+              issues > 0 ? 'bg-status-inconsistent-bg text-status-inconsistent-text' : 'text-ink-secondary'
+            }`}
+          >
+            {issues > 0 ? `${issues} issue${issues > 1 ? 's' : ''}` : '0 issues'}
           </span>
         );
       },
     },
     {
-      key: 'submission_date',
+      key: 'created_at',
       header: 'Last Updated',
-      sortable: true,
-      className: 'font-mono text-xs text-stone-600 w-36',
-      render: (app) => {
-        const dateStr = app.submission_date || app.created_at;
-        try {
-          return new Date(dateStr).toLocaleDateString(undefined, {
-            year: 'numeric',
+      className: 'w-[140px]',
+      render: (item) => (
+        <span className="text-xs text-ink-secondary tabular-nums">
+          {new Date(item.created_at).toLocaleDateString('en-GB', {
+            day: '2-digit',
             month: 'short',
-            day: 'numeric',
-          });
-        } catch {
-          return dateStr || 'Draft';
-        }
-      },
+            year: 'numeric',
+          })}
+        </span>
+      ),
     },
     {
       key: 'actions',
       header: 'Action',
-      className: 'w-24 text-right',
-      render: (app) => (
+      className: 'w-[130px]',
+      render: (item) => (
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/institution/applications/${app.id}`);
-          }}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary-hover p-1 rounded hover:bg-stone-100 transition-colors"
-          aria-label={`Open application #${app.id}`}
+          onClick={() => navigate(`/institution/applications/${item.id}`)}
+          className="inline-flex items-center gap-1.5 px-3 py-1 bg-warmBg hover:bg-primary hover:text-white text-primary text-xs font-semibold rounded-input border border-stoneBorder transition-colors"
         >
-          <span>Open</span>
+          <span>Workspace</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       ),
@@ -180,107 +160,133 @@ export const InstitutionApplicationsList: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-content mx-auto p-4 sm:p-6 space-y-6">
-      {/* Breadcrumbs */}
-      <Breadcrumbs items={[{ label: 'Institution Portal' }, { label: 'Applications' }]} />
+    <div className="space-y-6">
+      <Breadcrumbs
+        items={[
+          { label: 'Institution', to: '/institution' },
+          { label: t('institution.applications', 'Approval Applications') },
+        ]}
+      />
 
-      {/* Header bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-stoneBorder">
+      {/* Page Header with Single Main Saffron CTA */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stoneBorder">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-primary font-sans">
+          <h1 className="text-2xl font-bold text-ink">
             {t('institution.applications', 'Approval Applications')}
           </h1>
-          <p className="text-xs text-stone-600 mt-0.5">
-            Applicant:{' '}
-            <strong className="text-stone-900 font-semibold">
-              {currentUser.institutionName || 'Registered Technical Institute'}
-            </strong>
+          <p className="text-xs text-ink-secondary mt-1">
+            Track statutory approval filings, run completeness checks, and inspect regulatory feedback.
           </p>
         </div>
 
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-stone-950 text-xs font-bold shadow-sm transition-colors focus-visible:ring-2"
-          aria-label="Create new application"
-        >
-          <Plus className="w-4 h-4 text-stone-950" />
-          <span>{t('institution.newApplication', 'New Application')}</span>
-        </button>
-      </div>
-
-      {/* Error state with retry */}
-      {loadError && (
-        <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-xs text-red-800 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
-            <span>{loadError}</span>
-          </div>
+        <div className="flex items-center gap-2">
           <button
             onClick={loadApplications}
-            className="px-3 py-1 rounded bg-red-100 hover:bg-red-200 text-red-900 font-semibold text-xs transition-colors"
+            disabled={isLoading}
+            className="p-2 border border-stoneBorder rounded-input hover:bg-warmBg text-ink-secondary transition-colors"
+            title="Refresh application records"
           >
-            Retry
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
           </button>
+          {/* Saffron CTA - ONE main action on this screen */}
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-accent hover:bg-accent-hover text-stone-950 font-bold text-xs rounded-input shadow-subtle transition-colors"
+          >
+            <Plus className="w-4 h-4" />
+            <span>{t('institution.newApplication', 'New Application')}</span>
+          </button>
+        </div>
+      </div>
+
+      {loadError && (
+        <div className="p-4 rounded-card bg-status-inconsistent-bg border border-status-inconsistent/30 flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-status-inconsistent flex-shrink-0 mt-0.5" />
+          <div className="text-xs text-status-inconsistent-text">
+            <strong>Error loading applications:</strong> {loadError}
+          </div>
         </div>
       )}
 
       {/* Applications Data Table */}
       <DataTable
-        data={applications}
         columns={columns}
-        keyExtractor={(app) => app.id}
-        onRowClick={(app) => navigate(`/institution/applications/${app.id}`)}
+        data={applications}
+        keyExtractor={(item) => item.id}
         isLoading={isLoading}
-        emptyMessage="No applications found. Click 'New Application' to begin your AICTE approval dossier."
-        defaultSortKey="id"
-        defaultSortDir="desc"
+        emptyMessage="No applications found. Click 'New Application' to initiate an AICTE approval filing."
+        onRowClick={(item) => navigate(`/institution/applications/${item.id}`)}
       />
 
-      {/* Create Application Modal */}
-      <ConfirmDialog
-        isOpen={showCreateModal}
-        title={t('institution.createNewApplication', 'Create New Approval Application')}
-        message="Initialize a new institutional application dossier. You will be able to upload required legal deeds, run pre-submission compliance checks, and submit."
-        confirmLabel={t('institution.create', 'Create Application')}
-        cancelLabel={t('institution.cancel', 'Cancel')}
-        onConfirm={handleCreate}
-        onCancel={() => setShowCreateModal(false)}
-        isLoading={isCreating}
-        variant="primary"
-      >
-        <div className="space-y-3 pt-2">
-          <div>
-            <label htmlFor="app-type" className="text-xs font-semibold text-stone-700 block mb-1">
-              {t('institution.applicationType', 'Application Type')}:
-            </label>
-            <select
-              id="app-type"
-              value={appType}
-              onChange={(e) => setAppType(e.target.value)}
-              className="w-full p-2.5 border border-stoneBorder rounded-md text-xs bg-surface text-stone-900 focus-visible:ring-1"
-            >
-              {availableTypes.map((tItem) => (
-                <option key={tItem.key} value={tItem.key}>
-                  {tItem.name}
-                </option>
-              ))}
-            </select>
-          </div>
+      {/* "New Application" Modal with Dynamic Types from config */}
+      {showCreateModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="new-app-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/60 backdrop-blur-sm animate-fade-in"
+        >
+          <div className="bg-surface rounded-card border border-stoneBorder p-6 max-w-md w-full shadow-modal">
+            <h3 id="new-app-title" className="text-base font-bold text-ink mb-1">
+              {t('institution.createNewApplication', 'Create New Approval Application')}
+            </h3>
+            <p className="text-xs text-ink-secondary mb-4 leading-relaxed">
+              Select the Approval Process Handbook approval track and target submission date for {user?.institutionName || 'your institution'}.
+            </p>
 
-          <div>
-            <label htmlFor="sub-date" className="text-xs font-semibold text-stone-700 block mb-1">
-              {t('institution.submissionDate', 'Target Submission Date')}:
-            </label>
-            <input
-              id="sub-date"
-              type="date"
-              value={submissionDate}
-              onChange={(e) => setSubmissionDate(e.target.value)}
-              className="w-full p-2.5 border border-stoneBorder rounded-md text-xs bg-surface text-stone-900 font-mono focus-visible:ring-1"
-            />
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="app-type-select" className="block text-xs font-semibold text-ink mb-1">
+                  {t('institution.applicationType', 'Application Type')}
+                </label>
+                <select
+                  id="app-type-select"
+                  value={appType}
+                  onChange={(e) => setAppType(e.target.value)}
+                  className="w-full px-3 py-2 text-xs bg-surface border border-stoneBorder rounded-input text-ink focus:border-primary"
+                >
+                  {availableTypes.map((tItem) => (
+                    <option key={tItem.key} value={tItem.key}>
+                      {tItem.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="sub-date-input" className="block text-xs font-semibold text-ink mb-1">
+                  {t('institution.submissionDate', 'Submission Date')}
+                </label>
+                <input
+                  id="sub-date-input"
+                  type="date"
+                  value={submissionDate}
+                  onChange={(e) => setSubmissionDate(e.target.value)}
+                  className="w-full px-3 py-2 text-xs bg-surface border border-stoneBorder rounded-input text-ink focus:border-primary font-mono"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-5 mt-5 border-t border-stoneBorder">
+              <button
+                type="button"
+                onClick={() => setShowCreateModal(false)}
+                className="px-4 py-2 text-xs font-semibold text-ink-secondary hover:text-ink hover:bg-warmBg rounded-input transition-colors"
+              >
+                {t('institution.cancel', 'Cancel')}
+              </button>
+              <button
+                type="button"
+                disabled={isCreating}
+                onClick={handleCreateApplication}
+                className="px-5 py-2 text-xs font-bold bg-accent hover:bg-accent-hover text-stone-950 rounded-input shadow-subtle transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              >
+                {isCreating ? 'Creating Draft...' : t('institution.create', 'Create Application')}
+              </button>
+            </div>
           </div>
         </div>
-      </ConfirmDialog>
+      )}
     </div>
   );
 };

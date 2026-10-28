@@ -9,6 +9,7 @@ import {
   ArrowRight,
   TrendingUp,
   Search,
+  Info,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { useToast } from '../../context/ToastContext';
@@ -295,6 +296,12 @@ export const OfficerQueue: React.FC = () => {
           />
           <span>Resubmissions Only</span>
         </label>
+      </div>
+
+      {/* Illustrative score note */}
+      <div className="p-3 bg-surface-subtle border border-stoneBorder rounded-card text-xs text-ink-secondary flex items-center gap-2 shadow-subtle">
+        <Info className="w-4 h-4 text-primary flex-shrink-0" />
+        <span>Illustrative score. Supports the officer's decision; does not replace it.</span>
       </div>
 
       {/* Main Scrutiny List Data Table */}

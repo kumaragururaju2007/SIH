@@ -22,7 +22,7 @@ import {
   Eye,
 } from 'lucide-react';
 import { api, ValidationStageProgress } from '../../services/api';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { useI18n } from '../../i18n';
 import {
@@ -51,7 +51,7 @@ import { ExtractedFieldsView } from './ExtractedFieldsView';
 export const ApplicationWorkspace: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const appId = Number(id);
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const { showToast } = useToast();
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -371,7 +371,7 @@ export const ApplicationWorkspace: React.FC = () => {
             )}
           </div>
           <h1 className="text-lg sm:text-xl font-bold text-stone-900 font-sans">
-            {currentUser.institutionName || application.institution_name}
+            {user?.institutionName || application.institution_name}
           </h1>
           <p className="text-xs text-stone-500 mt-0.5">
             Target Submission Date:{' '}
@@ -837,7 +837,7 @@ export const ApplicationWorkspace: React.FC = () => {
               <div className="p-4 rounded-xl bg-stone-50 border border-stoneBorder space-y-3 text-xs">
                 <div className="flex justify-between py-1.5 border-b border-stoneBorder">
                   <span className="text-stone-500 font-medium">Institution Name:</span>
-                  <span className="font-bold text-stone-900">{currentUser.institutionName}</span>
+                  <span className="font-bold text-stone-900">{user?.institutionName}</span>
                 </div>
                 <div className="flex justify-between py-1.5 border-b border-stoneBorder">
                   <span className="text-stone-500 font-medium">Application ID:</span>
@@ -943,7 +943,7 @@ export const ApplicationWorkspace: React.FC = () => {
                   }
                   onCreateDraftAndFix={handleCreateDraftAndFix}
                   isCreatingDraft={isCreatingDraft}
-                  institutionName={currentUser.institutionName}
+                  institutionName={user?.institutionName}
                   applicationId={appId}
                 />
               ) : (

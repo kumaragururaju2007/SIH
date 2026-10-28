@@ -1,0 +1,82 @@
+# ==============================================================================
+# AICTE Cross-Document Consistency Rules (PROTOTYPE SPECIFICATION)
+# IMPORTANT: All thresholds, relations, and handbook clauses are strictly
+# ILLUSTRATIVE prototype values for hackathon demonstration.
+# Outcomes are produced strictly by deterministic string normalization and
+# fuzzy matching algorithms—never by an LLM.
+# ==============================================================================
+
+consistency_rules:
+  - id: XDOC-OWNER-TRUST
+    description: "Land document owner name must match trust name or any governing trustee"
+    kind: name
+    left: land_document.owner_name
+    right:
+      - trust_registration.trust_name
+      - trust_registration.trustee_names
+    relation: any_of
+    thresholds:
+      match_min: 85
+      partial_min: 70
+    severity_on_conflict: high
+    severity_on_partial: medium
+    message_templates:
+      match: "Land owner '{left_value}' matches sponsoring trust entity '{right_value}' (score: {score:.1f})."
+      partial: "Land owner '{left_value}' partially matches sponsoring trust entity '{right_value}' (score: {score:.1f}). Officer review recommended."
+      conflict: "Land owner '{left_value}' does not match sponsoring trust or any trustee in '{right_value}' (score: {score:.1f}). Land title must vest with sponsoring trust."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    version: "1.0.0"
+
+  - id: XDOC-INSTITUTION-NAME
+    description: "Fire safety certificate institution name must match application institution name"
+    kind: name
+    left: fire_safety_certificate.institution_name
+    right: application.institution_name
+    relation: equals
+    thresholds:
+      match_min: 85
+      partial_min: 70
+    severity_on_conflict: high
+    severity_on_partial: medium
+    message_templates:
+      match: "Fire safety institution '{left_value}' matches application institution '{right_value}' (score: {score:.1f})."
+      partial: "Fire safety institution '{left_value}' partially matches application institution '{right_value}' (score: {score:.1f})."
+      conflict: "Institution name mismatch: Fire certificate states '{left_value}', but application is registered as '{right_value}' (score: {score:.1f})."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    version: "1.0.0"
+
+  - id: XDOC-ADDRESS
+    description: "Fire safety premise address vs trust registered office address"
+    kind: address
+    left: fire_safety_certificate.address
+    right: trust_registration.registered_address
+    relation: equals
+    thresholds:
+      match_min: 75
+      partial_min: 50
+    severity_on_conflict: low
+    severity_on_partial: low
+    message_templates:
+      match: "Site address '{left_value}' aligns with trust registered office '{right_value}' (score: {score:.1f})."
+      partial: "Site address '{left_value}' partially aligns with trust registered office '{right_value}' (score: {score:.1f})."
+      conflict: "Campus site address '{left_value}' differs from trust registered office '{right_value}' (score: {score:.1f}, informational)."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    version: "1.0.0"
+
+  - id: XDOC-DATE-ORDER
+    description: "Trust registration date must be on or before land deed registration date"
+    kind: date_order
+    left: trust_registration.registered_date
+    right: land_document.registration_date
+    relation: date_before_or_equal
+    thresholds:
+      match_min: 100
+      partial_min: 80
+    severity_on_conflict: medium
+    severity_on_partial: low
+    message_templates:
+      match: "Trust established on {left_value} prior to land deed registration on {right_value}."
+      partial: "Trust registered date {left_value} matches land deed date {right_value}."
+      conflict: "Chronological inconsistency: Trust registration date ({left_value}) postdates land acquisition ({right_value})."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    version: "1.0.0"

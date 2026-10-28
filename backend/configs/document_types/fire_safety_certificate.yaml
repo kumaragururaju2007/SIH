@@ -1,0 +1,97 @@
+document_type: fire_safety_certificate
+display_name: "Fire & Life Safety Certificate"
+
+fields:
+  - name: certificate_number
+    type: string
+    required: true
+    description: "Official fire certificate or NOC reference number"
+    label_keywords:
+      english:
+        - "certificate number"
+        - "certificate no"
+        - "cert no"
+        - "noc no"
+        - "ref no"
+      hindi:
+        - "प्रमाण पत्र संख्या"
+        - "प्रमाणपत्र संख्या"
+        - "क्रमांक"
+
+  - name: institution_name
+    type: string
+    required: true
+    description: "Name of the institution or occupier"
+    label_keywords:
+      english:
+        - "institution / occupier"
+        - "institution name"
+        - "occupier"
+        - "name of institution"
+        - "occupier name"
+      hindi:
+        - "संस्थान"
+        - "संस्थान का नाम"
+        - "अधिभोगी"
+
+  - name: address
+    type: string
+    required: true
+    description: "Physical location address of the building"
+    label_keywords:
+      english:
+        - "site address"
+        - "premises address"
+        - "address"
+        - "location"
+      hindi:
+        - "स्थल का पता"
+        - "पता"
+        - "स्थान"
+
+  - name: issued_date
+    type: date
+    required: true
+    description: "Issue or inspection date"
+    label_keywords:
+      english:
+        - "date of inspection / issue"
+        - "date of issue"
+        - "issued date"
+        - "inspection date"
+        - "issued on"
+      hindi:
+        - "जारी दिनांक"
+        - "निर्गम दिनांक"
+        - "दिनांक"
+
+  - name: valid_until
+    type: date
+    required: true
+    description: "Expiration date of the fire safety approval"
+    label_keywords:
+      english:
+        - "valid up to"
+        - "valid until"
+        - "valid till"
+        - "expiry date"
+        - "validity"
+      hindi:
+        - "तक वैध"
+        - "वैधता"
+        - "वैध तिथि"
+
+  - name: issuing_authority
+    type: string
+    required: true
+    description: "Name of the government department or fire officer"
+    label_keywords:
+      english:
+        - "issuing fire authority"
+        - "issuing authority"
+        - "fire authority"
+        - "competent authority"
+      hindi:
+        - "अग्निशमन प्राधिकारी"
+        - "सक्षम प्राधिकारी"
+        - "प्राधिकारी"

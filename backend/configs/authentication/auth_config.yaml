@@ -1,0 +1,66 @@
+# ==============================================================================
+# AICTE Document Validation System - Authentication Configuration
+#
+# IMPORTANT NOTICE:
+# All numeric thresholds, weights, and parameters defined in this file are
+# ILLUSTRATIVE PROTOTYPE VALUES for testing and demonstration purposes.
+# They are not official AICTE norms or verified forensic standards.
+#
+# All forensic algorithms (Error Level Analysis, Copy-Move Detection, Noise
+# Inconsistency, Perceptual Hashing) provide probabilistic signals and risk
+# indicators, NEVER absolute proof of fraud. Final validation and legal
+# determinations must always be made by authorized human officers.
+# ==============================================================================
+
+# --- Error Level Analysis (ELA) ---
+# Illustrative prototype values:
+ela_quality: 90                            # Recompression JPEG quality factor (0-100)
+ela_block_size: 32                         # Spatial block size (32x32 pixels)
+ela_region_score_suspicious: 0.35          # Local deviation score to flag suspicious region
+ela_region_score_high: 0.65                # Local deviation score to flag high-suspicion region
+
+# --- Copy-Move Detection ---
+# Illustrative prototype values:
+copy_move_min_matches: 10                  # Minimum clustered spatial keypoint matches
+copy_move_min_distance_px: 60              # Minimum physical separation in pixels between matched clusters
+
+# --- Noise Inconsistency Analysis ---
+# Illustrative prototype values:
+noise_inconsistency_threshold: 0.40        # Relative variance deviation from spatial neighbors
+noise_block_size: 32                       # Analysis block size for local noise estimation
+
+# --- Perceptual Hashing (pHash) & Duplicates ---
+# Illustrative prototype values:
+phash_hamming_near_duplicate: 1            # Max Hamming distance (16x16 body phash) to treat as near-duplicate
+
+# --- PDF / Image Metadata Check ---
+# Illustrative prototype values:
+metadata_max_gap_days: 1                   # Max allowed days between CreationDate and ModDate
+suspicious_producers:
+  - "photoshop"
+  - "gimp"
+  - "canva"
+  - "paint"
+  - "image editor"
+  - "illustrator"
+  - "acrobat distiller"
+  - "coreldraw"
+
+# --- Composite Tampering Score & Status Thresholds ---
+# tampering_score is computed as: weight_ela * ela_score + weight_cm * cm_score + weight_noise * noise_score
+tampering_weights:
+  ela: 0.50
+  copy_move: 0.25
+  noise: 0.25
+
+tampering_thresholds:
+  suspicious: 0.35                         # Score >= 0.35 -> status: suspicious
+  high_suspicion: 0.65                     # Score >= 0.65 -> status: high_suspicion
+
+# --- Degraded Scan Detection (Poor Scan Guard) ---
+# When a page has high global blur and uniform noise across blocks (e.g. A10),
+# it is treated as low_quality_scan rather than tampering.
+degraded_scan:
+  blur_laplacian_threshold: 180.0          # Global Laplacian variance below this indicates blur
+  noise_uniformity_std_max: 30.0           # Standard deviation of block noise variance below this indicates uniform degradation
+  suppress_factor: 0.20                    # Score multiplier applied when degraded scan is detected

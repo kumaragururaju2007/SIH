@@ -1,0 +1,28 @@
+# ==============================================================================
+# AICTE Application Types & Norm Parameters (PROTOTYPE SPECIFICATION)
+# IMPORTANT: All parameters, thresholds, and norm values are strictly illustrative
+# prototype values for hackathon demonstration, not official AICTE regulations.
+# ==============================================================================
+
+application_types:
+  new_institution:
+    name: "New Institution Establishment Approval"
+    code: "new_institution"
+    description: "Application for establishing a new technical institution under AICTE Approval Process."
+    required_documents:
+      - fire_safety_certificate
+      - land_document
+      - trust_registration
+    parameters:
+      min_area_sqm: 10000.0  # Illustrative prototype threshold
+      certificate_min_validity_days: 0  # Illustrative prototype threshold
+
+  extension_of_approval:
+    name: "Extension of Approval (EoA)"
+    code: "extension_of_approval"
+    description: "Annual continuation of approval for existing operational institutions."
+    required_documents:
+      - fire_safety_certificate
+      - trust_registration
+    parameters:
+      certificate_min_validity_days: 0  # Illustrative prototype threshold

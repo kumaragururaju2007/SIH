@@ -1,0 +1,48 @@
+# ==============================================================================
+# AICTE Document Validation System - Risk Scoring Configuration
+#
+# IMPORTANT NOTICE:
+# All weights, normalization scales, and risk bands defined in this file are
+# ILLUSTRATIVE PROTOTYPE VALUES for testing and demonstration purposes.
+#
+# Risk score is a probabilistic decision support tool, NEVER absolute proof of fraud.
+# The verification officer always makes the final legal and administrative decision.
+# ==============================================================================
+
+disclaimer: "Illustrative score. Supports the officer's decision; does not replace it."
+
+weights:
+  tampering: 0.28            # Max tampering score across submitted documents
+  duplicate_reuse: 0.22      # Duplicate or cross-application ID reuse detected
+  failed_rules: 0.15         # Number and severity of failed deterministic rules
+  consistency_conflicts: 0.15 # Cross-document consistency conflicts and partials
+  missing_documents: 0.10    # Missing mandatory documents from completeness check
+  unverified_ratio: 0.05     # Share of not_evaluable rules or unverified signals
+  history_factor: 0.05       # Historical institution regulatory performance
+
+severity_multipliers:
+  high: 1.0
+  medium: 0.6
+  low: 0.3
+
+consistency_multipliers:
+  conflict: 1.0
+  partial: 0.4
+
+history:
+  neutral_score: 0.15        # Default neutral factor when institution has no prior history (not zero risk)
+  rejection_weight: 0.40     # Past application rejection weight
+  flag_weight: 0.05          # Past regulatory flags weight (per flag)
+  deficiency_weight: 0.02    # Past deficiencies weight (per deficiency)
+  recency_decay_per_year: 0.85 # Decay factor per year for historical records
+
+bands:
+  low:
+    min: 0.0
+    max: 35.0
+  medium:
+    min: 35.0
+    max: 65.0
+  high:
+    min: 65.0
+    max: 100.0

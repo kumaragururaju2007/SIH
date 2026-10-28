@@ -1,0 +1,105 @@
+document_type: land_document
+display_name: "Land Title & Ownership Document"
+
+fields:
+  - name: registration_number
+    type: string
+    required: true
+    description: "Official land title / conveyance deed registration number"
+    label_keywords:
+      english:
+        - "registration deed no"
+        - "registration number"
+        - "deed no"
+        - "reg no"
+        - "registration no"
+      hindi:
+        - "पंजीकरण संख्या"
+        - "विलेख संख्या"
+        - "पंजीयन क्रमांक"
+
+  - name: owner_name
+    type: string
+    required: true
+    description: "Registered owner entity or trust holding the land"
+    label_keywords:
+      english:
+        - "registered owner / entity"
+        - "registered owner"
+        - "owner name"
+        - "owner"
+        - "purchaser"
+      hindi:
+        - "पंजीकृत स्वामी का नाम"
+        - "स्वामी का नाम"
+        - "स्वामी"
+        - "मालिक"
+
+  - name: plot_number
+    type: string
+    required: true
+    description: "Survey, plot or khasra identification number"
+    label_keywords:
+      english:
+        - "plot / survey number"
+        - "plot number"
+        - "survey number"
+        - "khasra number"
+        - "khasra no"
+        - "plot no"
+      hindi:
+        - "भूखंड / खसरा संख्या"
+        - "भूखंड संख्या"
+        - "खसरा संख्या"
+        - "सर्वे क्रमांक"
+
+  - name: area_sqm
+    type: number
+    required: true
+    description: "Total contiguous campus land area in square metres"
+    label_keywords:
+      english:
+        - "total land area (sq.m)"
+        - "total land area"
+        - "land area"
+        - "area (sq.m)"
+        - "area"
+      hindi:
+        - "कुल क्षेत्रफल (वर्ग मीटर)"
+        - "कुल क्षेत्रफल"
+        - "क्षेत्रफल"
+        - "रकबा"
+
+  - name: village_or_locality
+    type: string
+    required: true
+    description: "Revenue circle, village, or locality where plot is situated"
+    label_keywords:
+      english:
+        - "locality / revenue circle"
+        - "village / locality"
+        - "revenue circle"
+        - "locality"
+        - "village"
+      hindi:
+        - "ग्राम / राजस्व क्षेत्र"
+        - "ग्राम / क्षेत्र"
+        - "राजस्व क्षेत्र"
+        - "ग्राम"
+
+  - name: registration_date
+    type: date
+    required: true
+    description: "Date when the conveyance deed was officially registered"
+    label_keywords:
+      english:
+        - "deed registration date"
+        - "registration date"
+        - "date of registration"
+        - "registered on"
+      hindi:
+        - "पंजीकरण तिथि"
+        - "पंजीकरण दिनांक"
+        - "पंजीकरण तारीख"
+        - "तिथि"
+        - "दिनांक"

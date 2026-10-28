@@ -1,0 +1,83 @@
+# ==============================================================================
+# AICTE Name Normalization Specifications (PROTOTYPE SPECIFICATION)
+# Configurable synonym groups, legal suffixes, and spelling collapse rules
+# for cross-document entity and institution matching.
+# ==============================================================================
+
+synonym_groups:
+  education:
+    - education
+    - educational
+    - ejukeshana
+    - ejukesana
+    - shikshan
+    - shikshana
+    - shiksha
+  society:
+    - society
+    - samiti
+    - sabha
+    - mandal
+    - mandali
+    - sanstha
+    - samstha
+    - parishad
+  trust:
+    - trust
+    - nyas
+    - trasta
+    - trasuta
+    - foundation
+  charitable:
+    - charitable
+    - charity
+  institution:
+    - institute
+    - institution
+    - academy
+    - vidyapith
+    - vidyapeeth
+    - peeth
+    - sansthan
+    - samsthana
+  college:
+    - college
+    - mahavidyalaya
+  technology:
+    - technology
+    - technological
+    - polytechnic
+    - technical
+    - prodyogiki
+    - praudyogiki
+    - technole
+
+legal_suffixes:
+  - registered
+  - regd
+  - ltd
+  - pvt
+  - limited
+  - private
+  - inc
+  - corp
+  - llc
+  - co
+  - public
+
+spelling_variants:
+  # Collapse common Indian English romanizations and phonetic duplicates
+  prefixes:
+    shri: sri
+    shree: sri
+    sree: sri
+  substitutions:
+    w: v
+    ph: f
+  aliases:
+    vaniyaka: vinayak
+    vinayaka: vinayak
+  doubled_vowels:
+    ee: i
+    oo: u
+    aa: a

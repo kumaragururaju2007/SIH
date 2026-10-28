@@ -1,0 +1,51 @@
+# ==============================================================================
+# AICTE Rule Specifications: Land Document (PROTOTYPE SPECIFICATION)
+# IMPORTANT: All thresholds, norms, and clauses are strictly ILLUSTRATIVE prototype
+# values for hackathon demonstration, not official AICTE Approval Process norms.
+# Pass/fail outcomes are determined strictly by deterministic rules, never by an LLM.
+# ==============================================================================
+
+rules:
+  - id: LAND-AREA-MIN
+    document_type: land_document
+    description: "Total land area must meet or exceed minimum AICTE norm for institution type"
+    condition: "area_sqm >= app.min_area_sqm"
+    severity: high
+    message: "Total land area {area_sqm} sq.m is below the required norm of {app.min_area_sqm} sq.m."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - area_sqm
+    version: "1.0.0"
+
+  - id: LAND-OWNER-PRESENT
+    document_type: land_document
+    description: "Registered land owner name must be present and legible"
+    condition: "present(owner_name)"
+    severity: high
+    message: "Registered land owner name is missing or unreadable."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - owner_name
+    version: "1.0.0"
+
+  - id: LAND-PLOT-PRESENT
+    document_type: land_document
+    description: "Plot or survey number must be present and legible"
+    condition: "present(plot_number)"
+    severity: medium
+    message: "Plot or survey number is missing or unreadable."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - plot_number
+    version: "1.0.0"
+
+  - id: LAND-REG-DATE-NOT-FUTURE
+    document_type: land_document
+    description: "Land deed registration date cannot be in the future relative to application submission date"
+    condition: "registration_date <= app.submission_date"
+    severity: medium
+    message: "Land registration date {registration_date} is after application submission date {app.submission_date}."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - registration_date
+    version: "1.0.0"

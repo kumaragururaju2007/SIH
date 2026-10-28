@@ -1,0 +1,44 @@
+name1,name2,label,category
+"Dr. Arvind Sharma","Arvind Sharma",same,honorific_variant
+"Shri Ramesh Patel","Ramesh Patel",same,honorific_variant
+"Smt. Sunita Rao","Sunita Rao",same,honorific_variant
+"Prof. K. S. Verma","K. S. Verma",same,honorific_variant
+"Shri Sai Education Trust","Sri Sai Educational Trust",same,spelling_variant
+"Shree Ganesh Vidya Mandir","Sri Ganesh Vidya Mandir",same,spelling_variant
+"Vikas Education Trust","Wikas Education Trust",same,spelling_variant
+"Vidya Mandir Trust","Widya Mandir Trust",same,spelling_variant
+"Phanindra Institute","Fanindra Institute",same,spelling_variant
+"Sunil Kumar","Suneel Kumar",same,spelling_variant
+"श्री विनायक एजुकेशन ट्रस्ट","Vinayak Education Trust",same,hindi_transliteration
+"श्री विनायक एजुकेशन ट्रस्ट","vinayaka ejukeshana trasta",same,hindi_transliteration
+"शिवाजी शिक्षण संस्था","Shivaji Shikshan Sanstha",same,hindi_transliteration
+"सरस्वती विद्या पीठ","Saraswati Vidya Peeth",same,hindi_transliteration
+"Apex Educational Foundation","Foundation of Educational Apex",same,word_order
+"National Institute of Engineering and Technology","National Technology and Engineering Institute",same,word_order
+"Sharma Arvind Dr.","Dr. Arvind Sharma",same,word_order
+"Horizon Educational Trust (Regd.)","Horizon Educational Trust",same,legal_suffix
+"Apex Foundation Pvt Ltd","Apex Foundation",same,legal_suffix
+"Modern Education Society Registered","Modern Education Society",same,legal_suffix
+"Global Tech Institute Co.","Global Tech Institute",same,legal_suffix
+"Apex Educational Foundation","Apeex Educational Foundation",same,typo
+"Horizon Institute of Technology","Horizn Institute of Technology",same,typo
+"National Polytechnic College","Natonal Polytechnic College",same,typo
+"Suresh Babu","Suresh Baabu",same,typo
+"Ramesh Kumar","Suresh Kumar",different,same_surname_different_person
+"Arvind Sharma","Sunil Sharma",different,same_surname_different_person
+"Meena K. Patel","Rajesh K. Patel",different,same_surname_different_person
+"Anand Verma","Pooja Verma",different,same_surname_different_person
+"Vijay Singh","Ajay Singh",different,same_surname_different_person
+"Kavita Rao","Suresh Rao",different,same_surname_different_person
+"Apex Educational Trust","National Educational Trust",different,different_trust_similar_words
+"Horizon Education Society","Apex Education Society",different,different_trust_similar_words
+"Saraswati Vidya Trust","Ganesh Vidya Trust",different,different_trust_similar_words
+"Modern Institute of Technology","City Institute of Technology",different,different_trust_similar_words
+"Delhi Educational Foundation","Mumbai Educational Foundation",different,different_trust_similar_words
+"Sunrise Public Trust","Moonlight Public Trust",different,different_trust_similar_words
+"Bharati Vidya Mandir","Shivaji Vidya Mandir",different,different_trust_similar_words
+"St. Xavier Education Trust","St. Mary Education Trust",different,different_trust_similar_words
+"Imperial Educational Society","Universal Educational Society",different,different_trust_similar_words
+"Kalyan Educational Trust","Seva Educational Trust",different,different_trust_similar_words
+"Vidya Vikas Trust","Shiksha Vikas Trust",different,different_trust_similar_words
+"Rajiv Gandhi Polytechnic","Indira Gandhi Polytechnic",different,different_trust_similar_words

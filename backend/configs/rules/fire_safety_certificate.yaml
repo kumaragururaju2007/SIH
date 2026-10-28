@@ -1,0 +1,52 @@
+# ==============================================================================
+# AICTE Rule Specifications: Fire Safety Certificate (PROTOTYPE SPECIFICATION)
+# IMPORTANT: All thresholds, norms, and clauses are strictly ILLUSTRATIVE prototype
+# values for hackathon demonstration, not official AICTE Approval Process norms.
+# Pass/fail outcomes are determined strictly by deterministic rules, never by an LLM.
+# ==============================================================================
+
+rules:
+  - id: FIRE-EXPIRY
+    document_type: fire_safety_certificate
+    description: "Fire safety certificate must be valid on or beyond application submission date"
+    condition: "valid_until >= app.submission_date"
+    severity: high
+    message: "Fire safety certificate expired on {valid_until}; submission date is {app.submission_date}."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - valid_until
+    version: "1.0.0"
+
+  - id: FIRE-DATES-ORDER
+    document_type: fire_safety_certificate
+    description: "Certificate issue date must precede or equal validity expiration date"
+    condition: "issued_date <= valid_until"
+    severity: high
+    message: "Certificate issue date {issued_date} is later than expiration date {valid_until}."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - issued_date
+      - valid_until
+    version: "1.0.0"
+
+  - id: FIRE-ISSUED-NOT-FUTURE
+    document_type: fire_safety_certificate
+    description: "Certificate issue date cannot be in the future relative to application submission date"
+    condition: "issued_date <= app.submission_date"
+    severity: medium
+    message: "Certificate issue date {issued_date} is after application submission date {app.submission_date}."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - issued_date
+    version: "1.0.0"
+
+  - id: FIRE-NUMBER-PRESENT
+    document_type: fire_safety_certificate
+    description: "Certificate number must be present and legible"
+    condition: "present(certificate_number)"
+    severity: high
+    message: "Certificate number is missing or unreadable."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - certificate_number
+    version: "1.0.0"

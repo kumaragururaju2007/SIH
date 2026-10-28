@@ -1,0 +1,106 @@
+{
+  "app": {
+    "title": "DocValidate",
+    "subtitle": "Institutional Document Scrutiny & Validation System",
+    "banner": "Prototype using synthetic data. Scores and thresholds are illustrative; officers make all decisions."
+  },
+  "roles": {
+    "institution": "Institution Portal",
+    "officer": "Scrutiny Officer",
+    "switchRole": "Switch Persona",
+    "demoAuthNote": "Demo authentication only - select persona for prototype evaluation."
+  },
+  "labels": {
+    "verified": "Verified",
+    "needs_verification": "Needs Verification",
+    "inconsistent": "Inconsistent",
+    "possible_tampering": "Possible Tampering",
+    "neutral": "Pending Review",
+    "low": "Low Risk",
+    "medium": "Medium Risk",
+    "high": "High Risk"
+  },
+  "help": {
+    "drawerTitle": "Understanding Validation Results",
+    "verifiedDesc": "All deterministic checks passed with high OCR confidence, matching metadata, valid cross-document linkages, and authentic registry records.",
+    "needsVerificationDesc": "A document has minor low OCR confidence, unreadable QR code, scan blur/noise, or missing fields that require human officer review. This is NOT a rejection.",
+    "inconsistentDesc": "Information between two submitted documents conflicts (e.g. land ownership name differs from sponsoring trust entity name, or dates appear in reverse chronological order).",
+    "possibleTamperingDesc": "Algorithmic image forensics detected localized compression anomalies (ELA), cloned pixel patterns, noise variations, or editing software metadata. These are probability signals for human scrutiny, not proof of fraud."
+  },
+  "institution": {
+    "applications": "Approval Applications",
+    "newApplication": "New Application",
+    "createNewApplication": "Create New Approval Application",
+    "applicationType": "Application Type",
+    "submissionDate": "Submission Date",
+    "cancel": "Cancel",
+    "create": "Create Application",
+    "stepper": {
+      "step1": "1. Documents",
+      "step2": "2. Pre-submission check",
+      "step3": "3. Submit",
+      "step4": "4. Feedback",
+      "step5": "5. Fix and recheck"
+    },
+    "documents": {
+      "title": "Mandatory Approval Documents",
+      "uploadHint": "Upload PDF or high-resolution PNG/JPG scans up to 25MB",
+      "missing": "Missing Document",
+      "uploaded": "Uploaded",
+      "unrecognized": "Unrecognized Type",
+      "unrecognizedNotice": "This file type was not automatically recognized. A scrutiny officer will review it manually during official inspection.",
+      "confidence": "OCR Confidence",
+      "detectedLang": "Language",
+      "dragDrop": "Drag & drop file here or click to browse"
+    },
+    "preCheck": {
+      "title": "Pre-submission Validation Check",
+      "runButton": "Run Pre-submission Check",
+      "disclaimer": "This pre-submission check runs safe deterministic rules and cross-checks without officially submitting your application.",
+      "summaryTitle": "Validation Findings Summary",
+      "noIssues": "No issues found! Your application meets all mandatory automated checks."
+    },
+    "submit": {
+      "title": "Official Application Submission",
+      "summary": "Review application summary before official submission to AICTE Scrutiny Officers.",
+      "submitButton": "Submit Application Officially",
+      "confirmTitle": "Confirm Official Application Submission",
+      "confirmMessage": "Are you sure you want to submit this application for official officer review? Once submitted, the application enters the officer scrutiny queue."
+    },
+    "feedback": {
+      "title": "Deficiency Report",
+      "empty": "No deficiencies found. Application is in good standing.",
+      "createDraft": "Create Draft & Fix Deficiencies",
+      "clause": "Norm / Clause Reference",
+      "severity": "Severity",
+      "failedReason": "Reason for Deficiency",
+      "actualValues": "Evaluated Data",
+      "action": "Action Required"
+    },
+    "fix": {
+      "title": "Fix Deficiencies & Run Recheck",
+      "parentIssues": "Identified Deficiencies from Previous Submission",
+      "uploadCorrected": "Upload Corrected Documents",
+      "recheckButton": "Run Recheck on Draft",
+      "resubmitButton": "Submit as Resubmission",
+      "resubmitNotice": "Recheck completed. You may now submit your corrected application."
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "retry": "Retry",
+    "close": "Close",
+    "howDecided": "How this was decided",
+    "clausePlaceholder": "AICTE Approval Process Handbook",
+    "ruleId": "Rule / Check ID",
+    "valuesUsed": "Values Evaluated",
+    "version": "Logic Version",
+    "back": "Back",
+    "filter": "Filter",
+    "search": "Search",
+    "actions": "Actions",
+    "status": "Status",
+    "details": "Details",
+    "date": "Date"
+  }
+}

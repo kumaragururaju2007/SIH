@@ -1,0 +1,76 @@
+# Document Classification Keywords & Scoring Rules (English & Devanagari Hindi)
+
+threshold: 0.20  # Minimum normalized score to accept classification; below this returns None
+
+keywords:
+  fire_safety_certificate:
+    english:
+      - "fire"
+      - "safety"
+      - "noc"
+      - "rescue"
+      - "disaster"
+      - "hazard"
+      - "extinguisher"
+      - "national building code"
+      - "life safety"
+      - "chief fire officer"
+      - "no objection certificate"
+    hindi:
+      - "अग्नि"
+      - "अग्निशमन"
+      - "सुरक्षा"
+      - "अनापत्ति"
+      - "आपदा"
+      - "एनओसी"
+      - "जीवन रक्षा"
+
+  land_document:
+    english:
+      - "land"
+      - "plot"
+      - "area"
+      - "deed"
+      - "survey"
+      - "revenue"
+      - "sub-registrar"
+      - "ownership"
+      - "title"
+      - "sq.m"
+      - "locality"
+      - "parcel"
+      - "conveyance"
+    hindi:
+      - "भूमि"
+      - "खसरा"
+      - "भूखंड"
+      - "क्षेत्रफल"
+      - "स्वत्व"
+      - "स्वामित्व"
+      - "राजस्व"
+      - "पंजीकरण"
+      - "विलेख"
+      - "उप-पंजीयक"
+      - "वर्ग मीटर"
+      - "ग्राम"
+
+  trust_registration:
+    english:
+      - "trust"
+      - "society"
+      - "trustee"
+      - "trustees"
+      - "charity"
+      - "charitable"
+      - "charity commissioner"
+      - "public trust"
+      - "governing"
+      - "deed of trust"
+    hindi:
+      - "न्यास"
+      - "ट्रस्ट"
+      - "न्यासी"
+      - "सोसायटी"
+      - "पब्लिक ट्रस्ट"
+      - "धर्मार्थ"
+      - "पंजीयन"

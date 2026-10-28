@@ -1,0 +1,101 @@
+# ==============================================================================
+# AICTE Document Validation System - Deficiency Report Templates (English)
+#
+# IMPORTANT NOTICE:
+# All clause references, deficiency titles, and guidance strings are
+# ILLUSTRATIVE PROTOTYPE VALUES for testing and demonstration purposes.
+#
+# SAFEGUARD: Guidance never suggests fabricating, altering, or backdating.
+# Guidance only explains what is missing or inconsistent and requires genuine replacements.
+# ==============================================================================
+
+MISSING_DOCUMENT:
+  title: "Missing Mandatory Document: {doc_name}"
+  what_failed: "Mandatory document '{doc_name}' was not submitted."
+  why: "Application type '{application_type}' requires this document under mandatory approval norms."
+  what_to_resubmit: "Please obtain and upload a genuine, valid copy of {doc_name} from the issuing authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Chapter 1 Mandatory Documents>"
+
+FIRE_EXPIRY:
+  title: "Fire Safety Certificate Expired"
+  what_failed: "The submitted Fire Safety Certificate is expired or validity could not be confirmed."
+  why: "Certificate expiration date is recorded as {expiry_date}, which is before the required validity threshold."
+  what_to_resubmit: "Please submit a current, valid Fire Safety Certificate issued by the competent Fire and Emergency Services authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Safety Norms Section 2.4>"
+
+LAND_AREA:
+  title: "Land Area Deficit"
+  what_failed: "The certified land area does not meet the minimum required area."
+  why: "Certified land area is {land_area} sqm, whereas the prescribed minimum norm is {min_area} sqm."
+  what_to_resubmit: "Please submit an updated, genuine Land Document or approved registered deed confirming required contiguous land."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Land Norms Section 3.1>"
+
+TRUST_REGISTRATION:
+  title: "Trust Registration Validity Issue"
+  what_failed: "Trust or Society registration details could not be validated."
+  why: "Registration details recorded as {trust_number} do not satisfy statutory verification requirements."
+  what_to_resubmit: "Please provide a genuine, certified copy of the Trust Deed or Registration Certificate from the Registrar of Societies / Public Trust."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Trust Verification Section 1.2>"
+
+DEFAULT_RULE:
+  title: "Rule Non-Compliance: {rule_id}"
+  what_failed: "Evaluation criteria failed for approval rule {rule_id}."
+  why: "{failure_reason}"
+  what_to_resubmit: "Please provide an updated, genuine official document issued by the appropriate competent authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition>"
+
+CONSISTENCY_OWNER_TRUST:
+  title: "Land Ownership and Trust Name Discrepancy"
+  what_failed: "Owner name recorded in land document does not match applicant Trust name."
+  why: "Land document lists '{owner_name}', while trust registration lists '{trust_name}'."
+  what_to_resubmit: "Please submit a genuine registered title deed or mutation certificate confirming land ownership or lease under the applicant Trust name."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Title Continuity Section 3.2>"
+
+CONSISTENCY_ADDRESS:
+  title: "Premises Address Discrepancy"
+  what_failed: "Site address varies across submitted compliance documents."
+  why: "Address listed as '{address_a}' in {doc_a} differs from '{address_b}' in {doc_b}."
+  what_to_resubmit: "Please submit genuine address rectification or revenue records from the municipal or revenue authority confirming site identity."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Campus Identification Section 2.1>"
+
+DEFAULT_CONSISTENCY:
+  title: "Cross-Document Discrepancy on {field}"
+  what_failed: "Inconsistency detected across application documents for {field}."
+  why: "{doc_a} shows '{value_a}', while {doc_b} shows '{value_b}'."
+  what_to_resubmit: "Please verify institutional records and provide matching, genuine official documents from the issuing authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition>"
+
+REGISTRY_MISMATCH:
+  title: "Government Registry Verification Mismatch: {doc_type}"
+  what_failed: "Extracted document records do not correspond with government database records."
+  why: "Registry comparison found discrepancy: {diff_fields}."
+  what_to_resubmit: "Please provide a fresh, genuine certificate with verifiable registration numbers from the official issuing portal."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Registry Verification Section 4.1>"
+
+DUPLICATE_REUSE:
+  title: "Duplicate Document or Identifier Reuse Detected"
+  what_failed: "Document content or certificate number matches a filing from another application."
+  why: "The document fingerprint or registration number '{cert_id}' was previously recorded under another submission."
+  what_to_resubmit: "Please submit an original, genuine document uniquely issued for this institution by the competent authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Anti-Duplicate Provisions Section 5.3>"
+
+TAMPERING_SIGNAL:
+  title: "Document Verification Inconsistency: {doc_type}"
+  what_failed: "The document could not be verified and shows inconsistencies; please provide a genuine copy from the issuing authority."
+  why: "Image forensics and structural checks detected anomalies (signal: {tamper_score}). Forensic signals are probabilities, not proof."
+  what_to_resubmit: "Please obtain and provide a fresh, genuine replacement document directly from the issuing authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Authenticity Standards Section 6.2>"
+
+UNREADABLE_SCAN:
+  title: "Degraded Scan Quality: {doc_type}"
+  what_failed: "Document image is degraded, blurry, or low-resolution."
+  why: "Optical character extraction confidence ({ocr_conf}%) is below readability norms."
+  what_to_resubmit: "Please upload a high-resolution, clear, and unblurred scan (minimum 300 DPI) of the original document."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Document Scanning Guidelines Section 7.1>"
+
+MISSING_QR:
+  title: "QR Security Code Missing or Unreadable: {doc_type}"
+  what_failed: "Official security QR code could not be detected or scanned."
+  why: "Security QR code is absent or unreadable on {doc_type}."
+  what_to_resubmit: "Please upload a clear scan of the document displaying the official digital verification QR code issued by the authority."
+  clause: "Handbook clause: <to be mapped to the current handbook edition - Digital Security Section 7.2>"

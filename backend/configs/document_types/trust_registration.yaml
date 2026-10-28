@@ -1,0 +1,81 @@
+document_type: trust_registration
+display_name: "Public Trust Registration Certificate"
+
+fields:
+  - name: registration_number
+    type: string
+    required: true
+    description: "Charity Commissioner / Public Trust registration number"
+    label_keywords:
+      english:
+        - "trust registration no"
+        - "registration number"
+        - "trust reg no"
+        - "reg no"
+      hindi:
+        - "पंजीकरण संख्या"
+        - "पंजीयन क्रमांक"
+        - "ट्रस्ट क्रमांक"
+
+  - name: trust_name
+    type: string
+    required: true
+    description: "Official legal name of the sponsoring trust or society"
+    label_keywords:
+      english:
+        - "name of the trust"
+        - "trust name"
+        - "name of trust"
+        - "society name"
+      hindi:
+        - "न्यास का नाम"
+        - "ट्रस्ट का नाम"
+        - "संस्था का नाम"
+
+  - name: registration_date
+    type: date
+    required: true
+    description: "Date of trust incorporation / registration"
+    label_keywords:
+      english:
+        - "registration date"
+        - "registered date"
+        - "date of registration"
+        - "registered on"
+      hindi:
+        - "पंजीकरण तिथि"
+        - "पंजीकरण दिनांक"
+        - "पंजीयन दिनांक"
+        - "तिथि"
+        - "दिनांक"
+
+  - name: trustees
+    type: list
+    required: true
+    description: "List of governing trustees or executive members"
+    label_keywords:
+      english:
+        - "governing trustees"
+        - "trustees"
+        - "trustee names"
+        - "members"
+      hindi:
+        - "न्यासी"
+        - "प्रशासक न्यासी"
+        - "ट्रस्टी"
+        - "सदस्य"
+
+  - name: registered_address
+    type: string
+    required: true
+    description: "Official registered office address of the trust"
+    label_keywords:
+      english:
+        - "registered office address"
+        - "registered address"
+        - "office address"
+        - "head office"
+      hindi:
+        - "पंजीकृत कार्यालय पता"
+        - "पंजीकृत पता"
+        - "कार्यालय पता"

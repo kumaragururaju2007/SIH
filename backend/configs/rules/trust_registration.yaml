@@ -1,0 +1,40 @@
+# ==============================================================================
+# AICTE Rule Specifications: Public Trust Registration (PROTOTYPE SPECIFICATION)
+# IMPORTANT: All thresholds, norms, and clauses are strictly ILLUSTRATIVE prototype
+# values for hackathon demonstration, not official AICTE Approval Process norms.
+# Pass/fail outcomes are determined strictly by deterministic rules, never by an LLM.
+# ==============================================================================
+
+rules:
+  - id: TRUST-REG-PRESENT
+    document_type: trust_registration
+    description: "Trust registration number must be present and legible"
+    condition: "present(registration_number)"
+    severity: high
+    message: "Trust registration number is missing or unreadable."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - registration_number
+    version: "1.0.0"
+
+  - id: TRUST-TRUSTEES-MIN
+    document_type: trust_registration
+    description: "Trust must have at least 2 governing trustees"
+    condition: "len(trustees) >= 2"
+    severity: high
+    message: "Number of governing trustees is below the minimum required (found {trustees_count}, minimum 2)."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - trustees
+    version: "1.0.0"
+
+  - id: TRUST-DATE-NOT-FUTURE
+    document_type: trust_registration
+    description: "Trust registration date cannot be in the future relative to application submission date"
+    condition: "registered_date <= app.submission_date"
+    severity: medium
+    message: "Trust registration date {registered_date} is after application submission date {app.submission_date}."
+    clause: "Handbook clause: <to be mapped to the current handbook edition>"
+    required_fields:
+      - registered_date
+    version: "1.0.0"

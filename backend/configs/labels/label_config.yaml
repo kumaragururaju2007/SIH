@@ -1,0 +1,71 @@
+# ==============================================================================
+# AICTE Document Validation System - Result Labels Configuration
+#
+# IMPORTANT NOTICE:
+# All thresholds, precedence orders, and parameters defined in this file are
+# ILLUSTRATIVE PROTOTYPE VALUES for testing and demonstration purposes.
+#
+# Labels are determined strictly by deterministic code, NEVER by an LLM.
+# All image forensics and metadata checks give probabilities and signals, not proof.
+# A human verification officer always reviews the evidence and makes the final decision.
+# ==============================================================================
+
+label_hierarchy:
+  # Precedence order (worst to best):
+  precedence:
+    - possible_tampering
+    - inconsistent
+    - needs_verification
+    - verified
+
+conditions:
+  possible_tampering:
+    tampering_statuses:
+      - high_suspicion
+    suspicious_with_supporting_signals:
+      primary_status: suspicious
+      required_supporting_signals:
+        - registry_mismatch
+        - qr_id_mismatch
+        - suspicious_producer
+        - mod_date_gap_exceeded
+        - creation_date_post_dated
+    duplicate_signals:
+      - exact_duplicate
+      - near_duplicate
+      - id_reuse
+
+  inconsistent:
+    rule_statuses:
+      - failed
+    consistency_statuses:
+      - conflict
+    registry_statuses:
+      - mismatch
+
+  needs_verification:
+    rule_statuses:
+      - not_evaluable
+    consistency_statuses:
+      - partial
+    qr_statuses:
+      - absent
+      - unreadable
+    registry_statuses:
+      - unavailable
+      - not_found
+    forensics_statuses:
+      - low_quality_scan
+    ocr_confidence_min: 0.60
+    allow_unrecognized_doc_type: false
+
+  verified:
+    require_zero_issues: true
+    at_least_one_positive_signal:
+      - registry_match
+      - qr_match
+      - all_rules_passed
+
+application_level:
+  # A missing required document makes the application at least inconsistent
+  missing_required_document_min_label: inconsistent

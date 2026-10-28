@@ -29,6 +29,13 @@ data/synthetic/*
 .coverage
 htmlcov/
 
+# Node / Frontend Build
+node_modules/
+dist/
+dist-ssr/
+frontend/dist/
+frontend/node_modules/
+
 # IDE & Editor files
 .vscode/
 .idea/

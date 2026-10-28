@@ -94,7 +94,8 @@
   }
 
   /* Hindi Font stack */
-  .lang-hi, :lang(hi) {
+  .lang-hi,
+  :lang(hi) {
     font-family: "Noto Sans Devanagari", "IBM Plex Sans", sans-serif;
   }
 }
@@ -106,7 +107,14 @@
     color: #000000 !important;
   }
 
-  .no-print, header, nav, aside, .sidebar-container, .topbar-container, .banner-container, button {
+  .no-print,
+  header,
+  nav,
+  aside,
+  .sidebar-container,
+  .topbar-container,
+  .banner-container,
+  button {
     display: none !important;
   }
 
@@ -127,7 +135,10 @@
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+
+  *,
+  ::before,
+  ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

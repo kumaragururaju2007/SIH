@@ -313,11 +313,10 @@ export const OfficerApplicationDetail: React.FC = () => {
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key as any)}
-            className={`px-3.5 py-2.5 border-b-2 transition-colors whitespace-nowrap focus-visible:ring-1 ${
-              activeTab === tab.key
-                ? 'border-primary text-primary font-bold bg-stone-50/60'
-                : 'border-transparent text-stone-600 hover:text-stone-900 hover:bg-stone-50/40'
-            }`}
+            className={`px-3.5 py-2.5 border-b-2 transition-colors whitespace-nowrap focus-visible:ring-1 ${activeTab === tab.key
+              ? 'border-primary text-primary font-bold bg-stone-50/60'
+              : 'border-transparent text-stone-600 hover:text-stone-900 hover:bg-stone-50/40'
+              }`}
           >
             {tab.label}
           </button>
@@ -433,11 +432,10 @@ export const OfficerApplicationDetail: React.FC = () => {
                       setSelectedDocId(doc.id);
                       setHighlightRegion(null);
                     }}
-                    className={`w-full text-left p-3 rounded-lg border transition-all ${
-                      isSelected
-                        ? 'border-primary bg-primary-light ring-1 ring-primary'
-                        : 'border-stoneBorder hover:bg-stone-50'
-                    }`}
+                    className={`w-full text-left p-3 rounded-lg border transition-all ${isSelected
+                      ? 'border-primary bg-primary-light ring-1 ring-primary'
+                      : 'border-stoneBorder hover:bg-stone-50'
+                      }`}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-mono text-[11px] font-bold text-stone-500">
@@ -618,13 +616,12 @@ export const OfficerApplicationDetail: React.FC = () => {
               return (
                 <div
                   key={rule.id}
-                  className={`p-4 rounded-lg border transition-all text-xs space-y-2 ${
-                    isNotEvaluable
-                      ? 'border-status-needsVerification-border bg-status-needsVerification-bg/20'
-                      : rule.passed
+                  className={`p-4 rounded-lg border transition-all text-xs space-y-2 ${isNotEvaluable
+                    ? 'border-status-needsVerification-border bg-status-needsVerification-bg/20'
+                    : rule.passed
                       ? 'border-status-verified-border bg-status-verified-bg/20'
                       : 'border-status-inconsistent-border bg-status-inconsistent-bg/20'
-                  }`}
+                    }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
@@ -636,13 +633,12 @@ export const OfficerApplicationDetail: React.FC = () => {
                       </span>
                     </div>
                     <span
-                      className={`px-2 py-0.5 rounded font-mono text-xs font-bold uppercase ${
-                        isNotEvaluable
-                          ? 'bg-status-needsVerification-bg text-status-needsVerification-text'
-                          : rule.passed
+                      className={`px-2 py-0.5 rounded font-mono text-xs font-bold uppercase ${isNotEvaluable
+                        ? 'bg-status-needsVerification-bg text-status-needsVerification-text'
+                        : rule.passed
                           ? 'bg-status-verified-bg text-status-verified-text'
                           : 'bg-status-inconsistent-bg text-status-inconsistent-text'
-                      }`}
+                        }`}
                     >
                       {rule.status}
                     </span>

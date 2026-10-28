@@ -120,9 +120,8 @@ export const InstitutionApplicationsList: React.FC = () => {
         const issues = item.reasons?.length || (item.label === 'inconsistent' ? 1 : 0);
         return (
           <span
-            className={`font-mono-val tabular-nums text-xs font-semibold px-2 py-0.5 rounded ${
-              issues > 0 ? 'bg-status-inconsistent-bg text-status-inconsistent-text' : 'text-ink-secondary'
-            }`}
+            className={`font-mono-val tabular-nums text-xs font-semibold px-2 py-0.5 rounded ${issues > 0 ? 'bg-status-inconsistent-bg text-status-inconsistent-text' : 'text-ink-secondary'
+              }`}
           >
             {issues > 0 ? `${issues} issue${issues > 1 ? 's' : ''}` : '0 issues'}
           </span>
